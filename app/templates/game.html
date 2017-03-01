@@ -1,0 +1,64 @@
+<!-- Import game stylesheet & bootstrap -->
+<link rel="stylesheet" href="/css/game.css">
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<!-- Import jQuery and game files -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+<script src="/js/Graphics.js"></script>
+<script src="/js/Game.js"></script>
+
+<div id='page-container'>
+    <h1 class="margin-bottom">Hangman</h1>
+    <h6 class="margin-bottom">Playing as {{ username }}</h6>
+    <h6 class="margin-bottom">Not {{ username }}? <a href='/logout'>logout</a></h6>
+    
+    <div id='stats-container'>
+        <button class="margin-bottom" id='new-game'>New Game</button>
+        <div>
+            <p>Wins (<span id='wins'>0</span>), Losses (<span id='losses'>0</span>)</p>
+        </div>
+    </div>
+    
+    <div id='game-container'>
+        
+        <!-- Buttons to try a letter -->
+        <div class='margin-bottom' id='letter-buttons-container'>
+            <button class='btn btn-default'>a</button>
+            <button class='btn btn-default'>b</button>
+            <button class='btn btn-default'>c</button>
+            <button class='btn btn-default'>d</button>
+            <button class='btn btn-default'>e</button>
+            <button class='btn btn-default'>f</button>
+            <button class='btn btn-default'>g</button>
+            <button class='btn btn-default'>h</button>
+            <button class='btn btn-default'>i</button>
+            <button class='btn btn-default'>j</button>
+            <button class='btn btn-default'>k</button>
+            <button class='btn btn-default'>l</button>
+            <button class='btn btn-default'>m</button>
+            <button class='btn btn-default'>n</button>
+            <button class='btn btn-default'>o</button>
+            <button class='btn btn-default'>p</button>
+            <button class='btn btn-default'>q</button>
+            <button class='btn btn-default'>r</button>
+            <button class='btn btn-default'>s</button>
+            <button class='btn btn-default'>t</button>
+            <button class='btn btn-default'>u</button>
+            <button class='btn btn-default'>v</button>
+            <button class='btn btn-default'>w</button>
+            <button class='btn btn-default'>x</button>
+            <button class='btn btn-default'>y</button>
+            <button class='btn btn-default'>z</button>
+        </div>
+        
+        <!-- Letters -->
+        <h3 class="margin-bottom" id='letter-container'></h3>
+        
+        <!-- Lives -->
+        <h4 class="margin-bottom">Lives: (<span id='hangman'>10</span>)</h4>
+        
+        <!-- Drawing Surface -->
+        <canvas id='canvas' class="margin-bottom" id="stickman">This game only works if your browser supports HTML5 canvas :(</canvas>
+        
+    </div>
+</div>

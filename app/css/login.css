@@ -1,0 +1,12 @@
+#page-container {
+    text-align: center;
+}
+
+.margin-bottom {
+    margin-bottom: 20px;
+}
+
+.login-failure {
+    color: red;
+    font-weight: bold;
+}

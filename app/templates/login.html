@@ -1,0 +1,34 @@
+<style>
+    #page-container {
+        text-align: center;
+    }
+    .margin-bottom {
+        margin-bottom: 20px;
+    }
+    .login-failure {
+        color: red;
+        font-weight: bold;
+    }
+</style>
+
+<!-- Import Register Page Style Sheet -->
+<link rel="stylesheet" href="/css/login.css">
+
+<!-- Import bootstrap style sheet -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
+
+<div id='page-container'>
+    <div class="margin-bottom">
+        <h1 class="margin-bottom">Hangman!</h1> 
+        Please login. Or... <a href='/register'>Signup</a>
+    </div>
+    <form class="margin-bottom" action="/login" method="post">
+        Username: <input name="username" type="text">
+        Password: <input name="password" type="password">
+        <input type="submit" value="Submit">
+    </form>
+    {% if Error %}
+        <p class="login-failure">Incorrect Credentials!</p>
+    {% endif %}
+</div>
+
