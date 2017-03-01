@@ -55,7 +55,8 @@ var Game = function(args) {
             var gameData = JSON.parse(result);
             
             self.initLetters(gameData.letters.length);
-            self.initHangman();    
+            self.initHangman();
+            
             graphics.clear();
             
             // Hide stats and show game controls.

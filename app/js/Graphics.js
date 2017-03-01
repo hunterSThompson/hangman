@@ -15,12 +15,15 @@ var Graphics = function(id) {
         context.beginPath();
         context.arc(60, 25, 10, 0, Math.PI * 2, true);
         context.stroke();
+        context.closePath();
     }
     
     var draw = function($pathFromx, $pathFromy, $pathTox, $pathToy) {
+        context.beginPath();
         context.moveTo($pathFromx, $pathFromy);
         context.lineTo($pathTox, $pathToy);
         context.stroke();
+        context.closePath();
     }
     
     var frame1 = function() {
