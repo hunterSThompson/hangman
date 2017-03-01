@@ -2,18 +2,24 @@ var Game = function(args) {
     
     var graphics = new Graphics('canvas');
     var self = this;
+    this.gameInProgress = true;
     
     this.initialize = function() {
         this.hangman = $('#' + args.hangman);
-        this.statsContainer = $('#' + args.statsContainer);
         this.gameContainer = $('#' + args.gameContainer);
         this.lettersContainer = $('#' + args.lettersContainer);
-        this.letterButtonsContainer = $('#' + args.letterButtonsContainer)
+        this.letterButtonsContainer = $('#' + args.letterButtonsContainer);
         this.wins = $('#' + args.wins);
         this.losses = $('#' + args.losses);
-        this.newGameButton = $('#' + args.newGame)
         
-        this.newGameButton.click(function(e) {
+        this.newGame = $(args.newGame);
+        this.newGameTemp = $('#' + args.newGameTemp);
+        
+        this.winsBanner = $('#' + args.winsBanner);
+        this.lossesBanner = $('#' + args.lossesBanner);
+        this.lossesBannerText = $('#' + args.lossBannerTextId);
+        
+        this.newGame.click(function(e) {
             self.startNewGame();
         });
         
@@ -59,9 +65,15 @@ var Game = function(args) {
             
             graphics.clear();
             
-            // Hide stats and show game controls.
-            self.statsContainer.hide();
+            // Hide 'new game' button and show game controls.
+            self.newGameTemp.hide();
             self.gameContainer.show();
+            
+            self.resetButtons();
+            
+            self.gameInProgress = true;
+            self.lossesBanner.hide();
+            self.winsBanner.hide();
         });
     }
     
@@ -78,29 +90,37 @@ var Game = function(args) {
         this.losses.text(losses);
     }
     
+    this.endGame = function(result) {
+        if (result.win) {
+            this.winsBanner.show();
+        } else {
+            this.lossesBannerText.text(result.word);
+            this.lossesBanner.show();
+        }
+        this.updateRecord(result.wins, result.losses);
+    }
+    
     this.selectLetter = function(e) {
+        // If the game is over, the user can't try any letters.
+        if (!this.gameInProgress) {
+            return;
+        }
+        
         var letter = $(e.target).text();
         $(e.target).prop('disabled', true);
         
         var callBack = function (res) {
             var result = JSON.parse(res);
-            if (result.game_over) {
-                if (result.win) {
-                    alert('You won!!');
-                } else {
-                    alert('Game Over.  You lost. Word was: ' + result.word);
-                }
-                self.updateRecord(result.wins, result.losses)
-                self.statsContainer.show();
-                self.gameContainer.hide();
-                self.resetButtons();
-            } else {
-                if (!result.miss) {
+            if (!result.miss) {
                     self.updateLetters(result.letters);
                 } else {
                     self.updateHangman(result.lives);
-                }
             }
+            
+            self.gameInProgress = !result.game_over;
+            if (result.game_over) {
+                self.endGame(result);
+            } 
         }
         
         var postData = { letter: letter };
@@ -125,11 +145,13 @@ var Game = function(args) {
                 self.updateLetters(game.letters);
                 self.updateHangman(game.lives, true);
                 self.setButtons(game.letters_guessed);
-                self.statsContainer.hide();
                 self.gameContainer.show();
+                self.newGameTemp.hide();
             } else {
                 self.updateRecord(game.wins, game.losses);
             }
+            
+            this.gameInProgress = !game.game_over;
         });
     }
     
@@ -139,13 +161,16 @@ var Game = function(args) {
 $(document).ready(function(e) {
     var args = {
         hangman: 'hangman',
-        statsContainer: 'stats-container',
         gameContainer: 'game-container',
         lettersContainer: 'letter-container',
         wins: 'wins',
         losses: 'losses',
         letterButtonsContainer: 'letter-buttons-container',
-        newGame: 'new-game'
+        newGame: '.play-again',
+        newGameTemp: 'new-game',
+        lossBannerTextId: 'show-word',
+        winsBanner: 'win-banner',
+        lossesBanner: 'loss-banner'
     }
     
     var g = new Game(args);

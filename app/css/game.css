@@ -19,3 +19,30 @@
 .inline-block {
     display: inline-block;
 }
+
+.banner {
+    border: 1px solid black;
+    display: none;
+}
+
+#win-banner {
+   text-align: center;
+    border: black 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: rgba(45, 202, 72, 0.42);
+    color: black;
+}
+
+#loss-banner {
+    text-align: center;
+    border: black 1px solid;
+    border-radius: 4px;
+    padding: 20px;
+    background-color: rgba(255, 0, 0, 0.42);
+    color: black;
+}
+
+.play-again {
+    margin-left: 20px;
+}

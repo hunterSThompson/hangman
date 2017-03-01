@@ -12,12 +12,9 @@
     <h6 class="margin-bottom">Playing as {{ username }}</h6>
     <h6 class="margin-bottom">Not {{ username }}? <a href='/logout'>logout</a></h6>
     
-    <div id='stats-container'>
-        <button class="margin-bottom" id='new-game'>New Game</button>
-        <div>
-            <p>Wins (<span id='wins'>0</span>), Losses (<span id='losses'>0</span>)</p>
-        </div>
-    </div>
+    <button class='play-again margin-bottom' id='new-game'>New Game</button>
+    
+    <p>Wins (<span id='wins'>0</span>), Losses (<span id='losses'>0</span>)</p>
     
     <div id='game-container'>
         
@@ -59,6 +56,18 @@
         
         <!-- Drawing Surface -->
         <canvas id='canvas' class="margin-bottom" id="stickman">This game only works if your browser supports HTML5 canvas :(</canvas>
+        
+        <!-- Win banner -->
+        <div id='win-banner' class='banner'>
+            Congratulations - You won!
+            <button class="btn btn-default play-again">Play again?</button>
+        </div>
+        
+        <!-- Loss banner -->
+        <h3 id='loss-banner' class='banner'>
+            Game over - you lost. Word was: <b id='show-word'></b>
+            <button class="btn btn-default play-again">Play again?</button>
+        </h3>
         
     </div>
 </div>
