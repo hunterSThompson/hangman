@@ -3,6 +3,7 @@ var Game = function(args) {
     var graphics = new Graphics('canvas');
     var self = this;
     this.gameInProgress = true;
+    var gameState = null;
     
     this.initialize = function() {
         this.hangman = $('#' + args.hangman);
@@ -24,10 +25,30 @@ var Game = function(args) {
         });
         
         this.letterButtonsContainer.find('button').click(function(e) {
-            self.selectLetter(e);
+            var letter = $(e.target).text();
+            self.selectLetter(letter, e.target);
         });
         
+        this.attachKeyboardEvents();
         this.loadGame();
+    }
+    
+    this.attachKeyboardEvents = function() {
+        $(document).keydown(function(e) {
+            // Fire event only for alphabetical keys.
+            if (e.keyCode >= 48 && e.keyCode <= 90) {
+                var letter = String.fromCharCode(e.keyCode).toLowerCase();
+                
+                // Only send the request if we have NOT already tried this letter.
+                // If we haven't guessed anything yet, lettersGuessed will be null
+                // so we do want to allow a guess, hence the OR clause.
+                if (!self.lettersGuessed || !self.lettersGuessed.includes(letter))
+                {
+                    var element = self.letterButtonsContainer.find('button:contains(' + letter + ')');
+                    self.selectLetter(letter, element);
+                }
+            }
+        });
     }
 
     this.initLetters = function(numLetters) {
@@ -98,16 +119,17 @@ var Game = function(args) {
             this.lossesBanner.show();
         }
         this.updateRecord(result.wins, result.losses);
+        this.lettersGuessed = null;
     }
     
-    this.selectLetter = function(e) {
+    this.selectLetter = function(letter, element) {
         // If the game is over, the user can't try any letters.
         if (!this.gameInProgress) {
             return;
         }
         
-        var letter = $(e.target).text();
-        $(e.target).prop('disabled', true);
+        // Disable the button for this letter so the user can't click it again.
+        $(element).prop('disabled', true);
         
         var callBack = function (res) {
             var result = JSON.parse(res);
@@ -118,6 +140,8 @@ var Game = function(args) {
             }
             
             self.gameInProgress = !result.game_over;
+            self.lettersGuessed = result.letters_guessed;
+            
             if (result.game_over) {
                 self.endGame(result);
             } 
@@ -147,6 +171,7 @@ var Game = function(args) {
                 self.setButtons(game.letters_guessed);
                 self.gameContainer.show();
                 self.newGameTemp.hide();
+                self.lettersGuessed = game.letters_guessed;
             } else {
                 self.updateRecord(game.wins, game.losses);
             }
